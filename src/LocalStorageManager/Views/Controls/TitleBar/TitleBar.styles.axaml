@@ -1,0 +1,68 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:controls="clr-namespace:LocalStorageManager">
+	
+  <Design.PreviewWith>
+    <controls:TitleBar />
+  </Design.PreviewWith>
+
+	<Style Selector="Button.MyButtonStyle">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Width" Value="40"/>
+		<Setter Property="Height" Value="30"/>
+		<Setter Property="FontSize" Value="16"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}">
+						<ContentPresenter Content="{TemplateBinding Content}"
+										  Foreground="{TemplateBinding Foreground}"
+										  HorizontalAlignment="Center"
+										  VerticalAlignment="Center"/>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style Selector="Button.MyButtonStyleClose">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Width" Value="40"/>
+		<Setter Property="Height" Value="30"/>
+		<Setter Property="FontSize" Value="16"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}">
+						<ContentPresenter Content="{TemplateBinding Content}"
+										  Foreground="{TemplateBinding Foreground}"
+										  HorizontalAlignment="Center"
+										  VerticalAlignment="Center"/>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style Selector="Button.MyButtonStyleClose:pointerover">
+		<Setter Property="Background" Value="#c23636"/>
+		<Setter Property="Foreground" Value="White"/>
+	</Style>
+	<Style Selector="Button.MyButtonStyleClose:pressed">
+		<Setter Property="Background" Value="#942828"/>
+	</Style>
+
+	<Style Selector="Button.MyButtonStyle:pointerover">
+		<Setter Property="Background" Value="#E0E0E0"/>
+	</Style>
+	<!-- Стиль при нажатии -->
+	<Style Selector="Button.MyButtonStyle:pressed">
+		<Setter Property="Background" Value="#C0C0C0"/>
+	</Style>
+</Styles>

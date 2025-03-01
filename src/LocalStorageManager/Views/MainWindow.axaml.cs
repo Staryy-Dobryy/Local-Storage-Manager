@@ -7,6 +7,10 @@ namespace LocalStorageManager.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            ExtendClientAreaToDecorationsHint = true;
+            ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
+            ExtendClientAreaTitleBarHeightHint = -1;
         }
     }
 }

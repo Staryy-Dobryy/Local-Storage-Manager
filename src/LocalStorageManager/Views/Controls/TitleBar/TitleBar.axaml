@@ -1,0 +1,17 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="LocalStorageManager.TitleBar">
+	<UserControl.Resources>
+		<StyleInclude Source="avares://LocalStorageManager/Views/Controls/TitleBar/TitleBar.styles.axaml"/>
+	</UserControl.Resources>
+	<Grid>
+		<!-- Кнопки управления окном -->
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Name="MinimizeButton" Content="—" Classes="MyButtonStyle"/>
+			<Button Name="MaximizeButton" Content="🗖" Classes="MyButtonStyle"/>
+			<Button Name="CloseButton" Content="✕" Classes="MyButtonStyleClose"/>
+		</StackPanel>
+		<!-- Название приложения -->
+		<TextBlock Text="Мое приложение" VerticalAlignment="Center" Margin="10,0,0,0"/>
+	</Grid>
+</UserControl>

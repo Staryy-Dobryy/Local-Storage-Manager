@@ -1,4 +1,5 @@
 <Window xmlns="https://github.com/avaloniaui"
+		xmlns:controls="clr-namespace:LocalStorageManager"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:LocalStorageManager.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LocalStorageManager.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/LSM-logo-1.ico"
         Title="LocalStorageManager">
 
     <Design.DataContext>
@@ -15,6 +16,48 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="100"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<Border
+				Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+			<controls:TitleBar />
+		</Border>
+		
+		<Border Background="Gainsboro"
+				Grid.Column="0"
+				Grid.Row="1"
+        BorderBrush="Black"
+        BorderThickness="2"
+        CornerRadius="3">
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<StackPanel>
+					
+				</StackPanel>
+			</ScrollViewer>
+			
+		</Border>
+		
+		<Border Background="Gainsboro"
+				Grid.Column="1"
+				Grid.Row="1"
+        BorderBrush="Black"
+        BorderThickness="2"
+        CornerRadius="3">
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<StackPanel>
+					
+				</StackPanel>
+			</ScrollViewer>
+		</Border>
+	</Grid>
+
 
 </Window>
