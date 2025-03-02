@@ -1,6 +1,7 @@
 using Avalonia.Controls;
+using LocalStorageManager.ViewModels.Windows;
 
-namespace LocalStorageManager.Views
+namespace LocalStorageManager.Views.Windows
 {
     public partial class MainWindow : Window
     {
@@ -11,6 +12,8 @@ namespace LocalStorageManager.Views
             ExtendClientAreaToDecorationsHint = true;
             ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
             ExtendClientAreaTitleBarHeightHint = -1;
+
+            DataContext = new MainWindowViewModel();
         }
     }
 }

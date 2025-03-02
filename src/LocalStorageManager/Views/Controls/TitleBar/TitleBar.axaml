@@ -1,9 +1,11 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="LocalStorageManager.TitleBar">
-	<UserControl.Resources>
+             x:Class="LocalStorageManager.Controls.TitleBar"
+             xmlns:vm="using:LocalStorageManager.ViewModels.Controls"
+             x:DataType="vm:TitleBarViewModel">
+	<UserControl.Styles>
 		<StyleInclude Source="avares://LocalStorageManager/Views/Controls/TitleBar/TitleBar.styles.axaml"/>
-	</UserControl.Resources>
+	</UserControl.Styles>
 	<Grid>
 		<!-- Кнопки управления окном -->
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -12,6 +14,6 @@
 			<Button Name="CloseButton" Content="✕" Classes="MyButtonStyleClose"/>
 		</StackPanel>
 		<!-- Название приложения -->
-		<TextBlock Text="Мое приложение" VerticalAlignment="Center" Margin="10,0,0,0"/>
+		<TextBlock Text="{Binding Title}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0"/>
 	</Grid>
 </UserControl>
