@@ -9,6 +9,11 @@ namespace LocalStorageManager.ViewModels.Controls
 {
     public class TitleBarViewModel : ObservableObject
     {
-        public string Title { get; private set; } = "Local Storage Manager";
+        private string _title = "Local Storage Manager";
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
     }
 }

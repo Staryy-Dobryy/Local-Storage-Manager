@@ -8,9 +8,26 @@ namespace LocalStorageManager.Controls;
 
 public partial class TitleBar : UserControl
 {
-    public TitleBar()
+    public static readonly StyledProperty<string> TitleProperty =
+        AvaloniaProperty.Register<TitleBar, string>(nameof(Title));
+
+
+    public string Title
+    {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+    public TitleBar() : this((TitleBarViewModel)App.Services.GetService(typeof(TitleBarViewModel)))
+    {
+    }
+    public TitleBar(TitleBarViewModel viewModel)
     {
         InitializeComponent();
-        DataContext = new TitleBarViewModel();
+        DataContext = viewModel;
+
+        this.Bind(TitleProperty, new Avalonia.Data.Binding("Title")
+        {
+            Mode = Avalonia.Data.BindingMode.TwoWay
+        });
     }
 }
