@@ -1,4 +1,9 @@
-﻿using LocalStorageManager.PluginLoader.Services.Interfaces;
+﻿using LocalStorageManager.PluginCore.Controls.Implementations;
+using LocalStorageManager.PluginCore.Controls.Interfaces;
+using LocalStorageManager.PluginCore.Core.Implementations;
+using LocalStorageManager.PluginCore.Core.Interfaces;
+using LocalStorageManager.PluginLoader.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +15,9 @@ namespace LocalStorageManager.PluginLoader.Services.Implementations
 {
     public class PluginLoaderService : IPluginLoaderService
     {
-        public List<UserControl> LoadPlugins(string pluginsFolder)
+        public List<IUsefulPlugin> LoadPlugins(string pluginsFolder, IServiceCollection services)
         {
-            var userControls = new List<UserControl>();
+            var userControls = new List<IUsefulPlugin>();
             try
             {
                 // Получаем все файлы плагинов
@@ -26,17 +31,20 @@ namespace LocalStorageManager.PluginLoader.Services.Implementations
                         // Находим все типы, наследующиеся от UserControl
                         // Добавь сборку в список AssemblyDescriptor
 
-                        var controlTypes = assembly.GetTypes()
-                            .Where(t => typeof(UserControl).IsAssignableFrom(t) && !t.IsAbstract);
+                        var pluginTypes = assembly.GetTypes()
+                            .Where(t => IsInheritedFromLocalStorageManagerPlugin(t) && !t.IsAbstract);
 
-                        foreach (var controlType in controlTypes)
+                        var f = pluginTypes.Count();
+                        foreach (var pluginType in pluginTypes)
                         {
                             // Создаём экземпляр пользовательского элемента управления
-                            var control = CreateControlInstance(controlType);
-
-                            if (control != null)
+                            var pluginInstance = CreateControlInstance(pluginType);
+                            pluginInstance.Load();
+                            pluginInstance.InitControls(services);
+                            pluginInstance.LoadExtensions(services);
+                            if (pluginInstance != null)
                             {
-                                userControls.Add(control);
+                                userControls.Add(pluginInstance as IUsefulPlugin);
                             }
                         }
                     }
@@ -53,15 +61,13 @@ namespace LocalStorageManager.PluginLoader.Services.Implementations
             }
             return userControls;
         }
-        private UserControl? CreateControlInstance(Type controlType)
+        private ILoadablePlugin<ToolKitMenuItemControl, ToolKitMenuButtonsControl, ToolKitActionControl> CreateControlInstance(Type controlType)
         {
             try
             {
                 // Создаём экземпляр класса
-                var control = (UserControl)Activator.CreateInstance(controlType);
+                var control = (ILoadablePlugin<ToolKitMenuItemControl, ToolKitMenuButtonsControl, ToolKitActionControl>)Activator.CreateInstance(controlType);
 
-                // Инициализируем компонент (загружаем XAML)
-                InitializeControl(control);
 
                 return control;
             }
@@ -71,20 +77,19 @@ namespace LocalStorageManager.PluginLoader.Services.Implementations
                 return null;
             }
         }
-
-        private void InitializeControl(UserControl control)
+        public bool IsInheritedFromLocalStorageManagerPlugin(Type typeToCheck)
         {
-            var initializeMethod = control.GetType().GetMethod("InitializeComponent", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            if (initializeMethod != null)
+            Type? baseType = typeToCheck.BaseType;
+            while (baseType != null)
             {
-                object[] _params = [true];
-                initializeMethod.Invoke(control, _params);
+                if (baseType.IsGenericType &&
+                    baseType.GetGenericTypeDefinition() == typeof(LocalStorageManagerPlugin<,,>))
+                {
+                    return true;
+                }
+                baseType = baseType.BaseType;
             }
-            else
-            {
-                // Если метод InitializeComponent не найден, пытаемся загрузить XAML напрямую
-                AvaloniaXamlLoader.Load(control);
-            }
+            return false;
         }
     }
 }
