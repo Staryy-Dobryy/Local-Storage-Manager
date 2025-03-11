@@ -19,6 +19,7 @@ namespace LocalStorageManager.PluginCore.Core.Implementations
         where TButtonsControl : ToolKitMenuButtonsControl, new()
         where TActionControl : ToolKitActionControl, new()
     {
+        public string PluginIconPath { get; set; }
         public delegate void PluginLoad(string pluginName);
         private event PluginLoad? OnPluginLoad;
 

@@ -21,7 +21,6 @@
 			<ColumnDefinition Width="0.3*" MinWidth="150"/>
 			<ColumnDefinition Width="*" MinWidth="300"/>
 		</Grid.ColumnDefinitions>
-
 		<controls:TitleBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"/>
 		<controls:ToolKitMenu Grid.Row="1" Grid.Column="0"/>
 		<controls:ToolKitButtonsMenu Grid.Row="1" Grid.Column="1" />
