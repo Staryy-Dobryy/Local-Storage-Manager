@@ -7,11 +7,11 @@ namespace LocalStorageManager.Controls;
 
 public partial class ToolKitMenu : UserControl
 {
-    public ToolKitMenu() : this((ToolKitMenuViewModel)App.Services.GetService(typeof(ToolKitMenuViewModel))) { }
-    public ToolKitMenu(ToolKitMenuViewModel viewModel)
+    public ToolKitMenu()
     {
         InitializeComponent();
+        DataContext = new ToolKitMenuViewModel();
 
-        DataContext = viewModel;
     }
+    public ToolKitMenuViewModel ViewModel => (ToolKitMenuViewModel)DataContext;
 }

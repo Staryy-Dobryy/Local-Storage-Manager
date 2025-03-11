@@ -2,7 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 x:Class="LocalStorageManager.Controls.ToolKitMenu"
 			 xmlns:vm="using:LocalStorageManager.ViewModels.Controls"
-			 x:DataType="vm:TitleBarViewModel">
+			 x:DataType="vm:ToolKitMenuViewModel"
+			 x:Name="Root">
 
 	<UserControl.Styles>
 		<StyleInclude Source="avares://LocalStorageManager/Views/Controls/ToolKitMenu/ToolKitMenu.styles.axaml" />
@@ -20,7 +21,20 @@
 
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<ContentControl Content="{Binding}" />
+							<Button Command="{Binding ViewModel.SelectMenuItemCommand, ElementName=Root}"
+									CommandParameter="{Binding Index}" 
+									Width="90" 
+									Height="90" 
+									Padding="2" 
+									Margin="0,5" 
+									CornerRadius="10" 
+									VerticalAlignment="Center" 
+									HorizontalAlignment="Center">
+								<Image Source="{Binding Bitmap}"
+										   ToolTip.Tip="{Binding Index}"
+										   HorizontalAlignment="Center"
+										   VerticalAlignment="Center"/>
+							</Button>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
