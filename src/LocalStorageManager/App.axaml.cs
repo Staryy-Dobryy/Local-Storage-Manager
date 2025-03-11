@@ -3,7 +3,10 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using LocalStorageManager.Controls;
+using LocalStorageManager.Models;
 using LocalStorageManager.PluginCore.Controls.Implementations;
 using LocalStorageManager.PluginCore.Core.Interfaces;
 using LocalStorageManager.PluginLoader.Services.Implementations;
@@ -24,8 +27,25 @@ namespace LocalStorageManager
 {
     public partial class App : Application
     {
+        private static int _currentPlugin;
+        public delegate void CurrentPluginChange(int newCurrentPlugin);
+        public static event CurrentPluginChange? OnCurrentPluginChange;
         public static IServiceProvider Services { get; private set; }
-        public static ObservableCollection<ToolKitMenuItemControl> PluginItemControls { get; private set; } = new();
+        public static ObservableCollection<PluginItemModel> PluginItemControls { get; private set; } = new();
+        public static ObservableCollection<ToolKitMenuButtonsControl> PluginButtonsControls { get; private set; } = new();
+        public static ObservableCollection<ToolKitActionControl> PluginActionControls { get; private set; } = new();
+        public static int CurrentPlugin
+        {
+            get
+            {
+                return _currentPlugin;
+            }
+            set
+            {
+                _currentPlugin = value;
+                OnCurrentPluginChange.Invoke(value);
+            }
+        }
         private List<IUsefulPlugin> Plugins { get; set; } = new();
         public override void Initialize()
         {
@@ -81,11 +101,26 @@ namespace LocalStorageManager
 
             Plugins = pluginService.LoadPlugins(pluginsFolder, serviceCollection);
             Services = serviceCollection.BuildServiceProvider();
-            var f = Services;
 
             foreach(var plugin in Plugins)
             {
-                PluginItemControls.Add(plugin.GetControl<ToolKitMenuItemControl>(Services));
+                var uri = new Uri(plugin.PluginIconPath, UriKind.Absolute);
+                using (var stream = AssetLoader.Open(uri))
+                {
+                    var bitmap = new Bitmap(stream);
+                    PluginItemControls.Add(new PluginItemModel(bitmap, PluginItemControls.Count));
+                }
+                PluginButtonsControls.Add(plugin.GetControl<ToolKitMenuButtonsControl>(Services));
+                PluginActionControls.Add(plugin.GetControl<ToolKitActionControl>(Services));
+
+                using (var stream = AssetLoader.Open(uri))
+                {
+                    var bitmap = new Bitmap(stream);
+                    PluginItemControls.Add(new PluginItemModel(bitmap, PluginItemControls.Count));
+                }
+                PluginButtonsControls.Add(null);
+                PluginActionControls.Add(plugin.GetControl<ToolKitActionControl>(Services));
+
             }
         }
     }
